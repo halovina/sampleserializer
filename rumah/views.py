@@ -11,11 +11,7 @@ from rumah.serializers import RumahSerializer
 import json
 
 # Create your views here.
-
-class Property145Listings(APIView):
-    parser_classes = (JSONParser,)
-    renderer_classes = (JSONRenderer,)
-    data = [
+listing_property = [
         {
             "id":1,
             "title":"Rumah murah di cilejit",
@@ -34,8 +30,12 @@ class Property145Listings(APIView):
             "harga":220000000
         },
     ]
+class Property145Listings(APIView):
+    parser_classes = (JSONParser,)
+    renderer_classes = (JSONRenderer,)
+    
     def get(self, request, format=None):
-        serializer = RumahSerializer(self.data, many=True)
+        serializer = RumahSerializer(listing_property, many=True)
         return Response(JSONRenderer().render(serializer.data),content_type="application/json", status=200)
 
     def post(self, request, format=None):
@@ -49,7 +49,7 @@ class Property145Listings(APIView):
         message = "data not found"
         try:
             id=data('id')
-            for x in self.data:
+            for x in listing_property:
                 if x['id'] == id:
                     message = "data found"
             
